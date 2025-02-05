@@ -1,0 +1,11 @@
+[project]
+name = "bssh"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "prettytable>=3.14.0",
+    "pyinstaller>=6.11.1",
+    "termcolor>=2.5.0",
+]
