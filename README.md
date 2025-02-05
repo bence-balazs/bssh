@@ -3,7 +3,7 @@ Basic SSH connection manager written in python, zero dependencies.
 
 The given cicd for the build is producing runnable binary:
 
-    - glibc: debian:bullseye or any later version of it and ubuntu etc...
+    - glibc: debian:buster or any later version of it and ubuntu etc...
     - musl: alpine:3.16 or any later version
 
 Known bugs / missing features:
