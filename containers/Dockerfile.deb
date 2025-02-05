@@ -1,0 +1,11 @@
+FROM python:3.12-rc-slim-buster
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+
+RUN apt update && apt install -y binutils
+
+ENV FILE_NAME="bssh_glibc"
+
+ADD . /app
+WORKDIR /app
+
+ENTRYPOINT [ "/app/containers/docker-entrypoint.sh" ]
