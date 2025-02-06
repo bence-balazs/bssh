@@ -102,72 +102,59 @@ def display_menu():
 
 def main():
     create_db()
-
-    while True:
-        print()
-        print_all_record()
-        try:
-            choice = input(colored("Enter the number of the SSH connection you want to connect. CTRL+C to exit. [m] for menu: ", 'yellow'))
-        except KeyboardInterrupt:
+    try:
+        while True:
             print()
-            sys.exit(1)
+            print_all_record()
+            choice = input(colored("Enter the number of the SSH connection you want to connect. CTRL+C to exit. [m] for menu: ", 'yellow'))
 
-        if choice.isdigit() and find_id(int(choice)) and int(choice) > 0:
-            host = get_record_by_id(int(choice))
-            print(colored(f"Connecting to: {host[4]}@{host[2]}", 'green'))
-            command = f"ssh -p {host[3]} {host[4]}@{host[2]}"
-            # Run the command
-            os.system(command)
-            sys.exit(0)
+            if choice.isdigit() and find_id(int(choice)) and int(choice) > 0:
+                host = get_record_by_id(int(choice))
+                print(colored(f"Connecting to: {host[4]}@{host[2]}", 'green'))
+                command = f"ssh -p {host[3]} {host[4]}@{host[2]}"
+                # Run the command
+                os.system(command)
+                sys.exit(0)
 
-        elif choice == "m":
-            while True:
-                display_menu()
-                try:
+            elif choice == "m":
+                while True:
+                    display_menu()
                     choice = input(colored("Please select an option (0-3): ", 'yellow'))
-                except KeyboardInterrupt:
-                    print()
-                    sys.exit(0)
 
-                if choice == '0':
-                    # Exit from the program
-                    print("0")
-                    sys.exit(0)
-                elif choice == "1":
-                    # Add new record
-                    try:
+                    if choice == '0':
+                        # Exit from the program
+                        print("0")
+                        sys.exit(0)
+                    elif choice == "1":
+                        # Add new record
                         name = input(colored("Name: ", 'yellow'))
                         domain = input(colored("Domain or IP: ", 'yellow'))
                         port = input(colored("Port: ", 'yellow'))
                         user = input(colored("User: ", 'yellow'))
                         key = input(colored("KeyFile: ", 'yellow'))
-                    except KeyboardInterrupt:
-                        print()
-                        sys.exit(0)
-                    add_record(name, domain, int(port), user, key)
-                    break
-                elif choice == "2":
-                    # Edit existing record
-                    print("There is no edit yet...")
-                    break
-                elif choice == "3":
-                    # Delete existing record
-                    try:
+                        add_record(name, domain, int(port), user, key)
+                        break
+                    elif choice == "2":
+                        # Edit existing record
+                        print("There is no edit yet...")
+                        break
+                    elif choice == "3":
+                        # Delete existing record
                         id = input(colored("DELETE saved SSH connection, ID: ", 'red'))
-                    except KeyboardInterrupt:
-                        print()
-                        sys.exit(0)
-                    if id.isdigit() and find_id(int(id)):
-                        record = get_record_by_id(int(id))
-                        delete_record_by_id(int(id))
-                        print(colored(f"Record successfully deleted: {record}", 'green'))
-                    print(colored("Invalid choice. Please try again.", 'red'))
-                    break
-                else:
-                    print(colored("Invalid choice. Please try again.", 'red'))
-        else:
-            print(colored("Invalid choice, exiting...", 'red'))
-            sys.exit(1)
+                        if id.isdigit() and find_id(int(id)):
+                            record = get_record_by_id(int(id))
+                            delete_record_by_id(int(id))
+                            print(colored(f"Record successfully deleted: {record}", 'green'))
+                        print(colored("Invalid choice. Please try again.", 'red'))
+                        break
+                    else:
+                        print(colored("Invalid choice. Please try again.", 'red'))
+            else:
+                print(colored("Invalid choice, exiting...", 'red'))
+                sys.exit(1)
+    except KeyboardInterrupt:
+        print()
+        sys.exit(0)
 
 
 if __name__ == "__main__":
