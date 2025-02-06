@@ -193,17 +193,17 @@ def main():
                         if not name:
                             name = record[1]
                         domain = input(f"Enter new name (enter to keep {record[2]}): ")
+                        if not domain:
+                            domain = record[2]
                         if not (is_valid_ipv4(domain) or is_valid_domain(domain)):
                             print(colored(f"Invalid domain or IP address: {domain}", 'red'))
                             break
-                        if not domain:
-                            domain = record[2]
                         port = input(f"Enter new name (enter to keep {record[3]}): ")
+                        if not port:
+                            port = int(record[3])
                         if not is_valid_port(port):
                             print(colored(f"Invalid port: {port}", 'red'))
                             break
-                        if not port:
-                            port = int(record[3])
                         user = input(f"Enter new name (enter to keep {record[4]}): ")
                         if not user:
                             user = record[4]
