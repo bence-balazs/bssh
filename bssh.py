@@ -31,6 +31,12 @@ def is_valid_domain(domain):
     # Regex for validating a domain name
     pattern = r'^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]'
     return re.match(pattern, domain) is not None
+
+def is_valid_port(port):
+    # Regex for check port validity
+    pattern = r'^(6553[0-5]|[0-5]?[0-9]{0,4}|[1-5][0-9]{0,4}|[0-6][0-5][0-5][0-9]|[0-6][0-5][0-5][0-9])$'
+    return re.match(pattern, str(port)) is not None
+
 def print_all_record():
     # Create a PrettyTable object and format it
     table = ColorTable(theme=Themes.PASTEL)
@@ -147,6 +153,9 @@ def main():
                             print(colored(f"Invalid domain or IP address: {domain}", 'red'))
                             break
                         port = input(colored("Port: ", 'yellow'))
+                        if not is_valid_port(port):
+                            print(colored(f"Invalid port: {port}", 'red'))
+                            break
                         user = input(colored("User: ", 'yellow'))
                         key = input(colored("KeyFile: ", 'yellow'))
                         add_record(name, domain, int(port), user, key)
@@ -172,7 +181,6 @@ def main():
     except KeyboardInterrupt:
         print()
         sys.exit(0)
-
 
 if __name__ == "__main__":
     main()
