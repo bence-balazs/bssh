@@ -1,6 +1,9 @@
-import csv
+import re
 import os
+import csv
 import sys
+import readline
+import ipaddress
 
 from pathlib import Path
 from termcolor import colored
@@ -17,6 +20,12 @@ def create_db():
             writer = csv.writer(file)
             writer.writerow(['ID', 'name', 'domain', 'port', 'user', 'keyFile']) # Write the header
 
+def is_valid_ipv4(ip):
+    try:
+        ipaddress.IPv4Address(ip)
+        return True
+    except ipaddress.AddressValueError:
+        return False
 def print_all_record():
     # Create a PrettyTable object and format it
     table = ColorTable(theme=Themes.PASTEL)
