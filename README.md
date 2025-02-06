@@ -22,5 +22,3 @@ Known bugs / missing features:
 
     - Missing: validating every input, IPv4, domain, port etc...
     - The whole edit/update feature is missing
-    - Adding new record, and ctrl+c any fields result an error, need to implement better error handling.
-    - When there is no record, ctrl+c giving error.
