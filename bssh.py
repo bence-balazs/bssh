@@ -61,7 +61,7 @@ def get_record_by_id(id):
             if int(row[0]) == id:
                 return row
 
-def find_id(id_to_find):
+def is_valid_id(id_to_find):
     with open(db_file, mode='r') as file:
         reader = csv.reader(file)
         # Skip the header
@@ -128,7 +128,7 @@ def main():
             print_all_record()
             choice = input(colored("Enter the number of the SSH connection you want to connect. CTRL+C to exit. [m] for menu: ", 'yellow'))
 
-            if choice.isdigit() and find_id(int(choice)) and int(choice) > 0:
+            if choice.isdigit() and is_valid_id(int(choice)) and int(choice) > 0:
                 host = get_record_by_id(int(choice))
                 print(colored(f"Connecting to: {host[4]}@{host[2]}", 'green'))
                 command = f"ssh -p {host[3]} {host[4]}@{host[2]}"
@@ -167,7 +167,7 @@ def main():
                     elif choice == "3":
                         # Delete existing record
                         id = input(colored("DELETE saved SSH connection, ID: ", 'red'))
-                        if id.isdigit() and find_id(int(id)):
+                        if id.isdigit() and is_valid_id(int(id)):
                             record = get_record_by_id(int(id))
                             delete_record_by_id(int(id))
                             print(colored(f"Record successfully deleted: {record}", 'green'))
