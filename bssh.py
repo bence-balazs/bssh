@@ -91,6 +91,26 @@ def add_record(name, domain, port, user, keyfile):
         writer = csv.writer(file)
         writer.writerow([new_id, name, domain, port, user, keyfile])
 
+def edit_record(id, name, domain, port, user, keyfile):
+    with open(db_file, 'r') as file:
+        reader = csv.DictReader(file)
+        rows = list(reader)
+
+    # Loop through the rows, modify the value where ID is equal to
+    for row in rows:
+        if int(row['ID']) == id:
+            row['name'] = name
+            row['domain'] = domain
+            row['port'] = port
+            row['user'] = user
+            row['keyFile'] = keyfile
+
+    # Write the modified data back to the CSV file
+    with open(db_file, 'w') as file:
+        writer = csv.DictWriter(file, fieldnames=reader.fieldnames)
+        writer.writeheader()
+        writer.writerows(rows)
+
 def delete_record_by_id(record_id):
     records = []
 
@@ -162,7 +182,37 @@ def main():
                         break
                     elif choice == "2":
                         # Edit existing record
-                        print("There is no edit yet...")
+                        id = input(colored("Please select an ID to edit connection: ", 'yellow'))
+                        if not is_valid_id(int(id)):
+                            print(colored(f"There is no souch ID: {id}", 'red'))
+                            break
+                        record = get_record_by_id(int(id))
+                        print(colored(record,'green'))
+
+                        name = input(f"Enter new name (enter to keep {record[1]}): ")
+                        if not name:
+                            name = record[1]
+                        domain = input(f"Enter new name (enter to keep {record[2]}): ")
+                        if not (is_valid_ipv4(domain) or is_valid_domain(domain)):
+                            print(colored(f"Invalid domain or IP address: {domain}", 'red'))
+                            break
+                        if not domain:
+                            domain = record[2]
+                        port = input(f"Enter new name (enter to keep {record[3]}): ")
+                        if not is_valid_port(port):
+                            print(colored(f"Invalid port: {port}", 'red'))
+                            break
+                        if not port:
+                            port = int(record[3])
+                        user = input(f"Enter new name (enter to keep {record[4]}): ")
+                        if not user:
+                            user = record[4]
+                        key = input(f"Enter new name (enter to keep {record[5]}): ")
+                        if not key:
+                            key = record[5]
+
+                        edit_record(int(id),name,domain,int(port),user,key)
+        
                         break
                     elif choice == "3":
                         # Delete existing record
