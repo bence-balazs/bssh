@@ -17,8 +17,3 @@ The given cicd for the build is producing runnable binary:
 
     - glibc: debian:buster or any later version of it and ubuntu etc...
     - musl: alpine:3.16 or any later version
-
-Known bugs / missing features:
-
-    - Missing: validating every input, IPv4, domain, port etc...
-    - The whole edit/update feature is missing
