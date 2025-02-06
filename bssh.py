@@ -26,6 +26,11 @@ def is_valid_ipv4(ip):
         return True
     except ipaddress.AddressValueError:
         return False
+
+def is_valid_domain(domain):
+    # Regex for validating a domain name
+    pattern = r'^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]'
+    return re.match(pattern, domain) is not None
 def print_all_record():
     # Create a PrettyTable object and format it
     table = ColorTable(theme=Themes.PASTEL)
@@ -138,6 +143,9 @@ def main():
                         # Add new record
                         name = input(colored("Name: ", 'yellow'))
                         domain = input(colored("Domain or IP: ", 'yellow'))
+                        if not (is_valid_ipv4(domain) or is_valid_domain(domain)):
+                            print(colored(f"Invalid domain or IP address: {domain}", 'red'))
+                            break
                         port = input(colored("Port: ", 'yellow'))
                         user = input(colored("User: ", 'yellow'))
                         key = input(colored("KeyFile: ", 'yellow'))
