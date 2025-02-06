@@ -37,6 +37,11 @@ def is_valid_port(port):
     pattern = r'^(6553[0-5]|[0-5]?[0-9]{0,4}|[1-5][0-9]{0,4}|[0-6][0-5][0-5][0-9]|[0-6][0-5][0-5][0-9])$'
     return re.match(pattern, str(port)) is not None
 
+def is_have_keyfile(host):
+    if not host[5] == "":
+        return True
+    return False
+
 def print_all_record():
     # Create a PrettyTable object and format it
     table = ColorTable(theme=Themes.PASTEL)
@@ -150,8 +155,14 @@ def main():
 
             if choice.isdigit() and is_valid_id(int(choice)) and int(choice) > 0:
                 host = get_record_by_id(int(choice))
-                print(colored(f"Connecting to: {host[4]}@{host[2]}", 'green'))
+                
                 command = f"ssh -p {host[3]} {host[4]}@{host[2]}"
+                if is_have_keyfile(host):
+                    command = f"ssh -i {host[5]} -p {host[3]} {host[4]}@{host[2]}"
+                    print(colored(f"Connecting to: {host[4]}@{host[2]} ssh-key: {host[5]}", 'green'))
+                else:
+                    print(colored(f"Connecting to: {host[4]}@{host[2]}", 'green'))
+
                 # Run the command
                 os.system(command)
                 sys.exit(0)
